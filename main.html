@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home & Living</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: ghostwhite;
+    }
+
+    .hero {
+      position: relative;
+      height: 60vh;
+      overflow: hidden;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 0;
+    }
+
+    .hero-text {
+      position: relative;
+      color: white;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .search-section {
+      background: white;
+      padding: 2rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      border: 2px solid whitesmoke;
+      border-radius: 50px;
+      background: ghostwhite;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: royalblue;
+      background: white;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .search-results {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      max-height: 400px;
+      overflow-y: auto;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .search-results.show {
+      display: block;
+    }
+
+    .search-result-item {
+      padding: 1rem;
+      border-bottom: 1px solid white;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .search-result-item:hover {
+      background-color: white;
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #f1f2f6;
+    }
+
+    .result-info {
+      flex-grow: 1;
+    }
+
+    .result-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #333;
+    }
+
+    .result-category {
+      font-size: 0.85rem;
+      color: #666;
+      background: #e9ecef;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+    }
+
+    .result-price {
+      font-weight: 700;
+      color: #28a745;
+    }
+
+    .no-results {
+      padding: 2rem;
+      text-align: center;
+      color: #666;
+    }
+
+    .category-card:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+
+    footer {
+      background-color: #343a40;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .search-stats {
+      padding: 0.5rem 1rem;
+      background: ghostwhite;
+      border-bottom: 1px solid #e9ecef;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .card-img-fixed-height {
+      height: 250px;
+      /* Or any other desired height */
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Home & Living</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="kitchenware.html">Kitchenware</a></li>
+          <li class="nav-item"><a class="nav-link" href="HouseGadget.html">House Gadgets</a></li>
+          <li class="nav-item"><a class="nav-link" href="furniture.html">Furniture</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="cart.html">
+              🛒 Cart <span id="cartCount" class="badge bg-warning text-dark">0</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <video autoplay muted loop>
+      <source src="video/HomeAndLiving.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-text">
+      <h1>Welcome to Your Dream Home</h1>
+      <p>Explore kitchenware, gadgets, and furniture that elevate your lifestyle</p>
+    </div>
+  </section>
+
+  <!-- Search Section -->
+  <section class="search-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <h3 class="text-center mb-4">Search All Products</h3>
+          <div class="search-container">
+            <input type="text" class="search-input" id="globalSearch"
+              placeholder="Search across kitchenware, furniture, and gadgets...">
+            <div class="search-results" id="searchResults">
+              <div class="search-stats" id="searchStats"></div>
+              <div id="resultsContainer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container my-5">
+    <div class="row text-center">
+      <!-- Kitchenware Card -->
+      <div class="col-md-4 mb-4">
+        <div class="card category-card h-100">
+          <img src="image/Kitchen.jpg" class="img-fluid card-img-top card-img-fixed-height" alt="Kitchenware">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="card-title">Kitchenware</h5>
+            <a href="kitchenware.html" class="btn btn-primary mt-auto">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="card category-card h-100">
+          <img src="image/houseGadget.jpg" class="img-fluid card-img-top card-img-fixed-height" alt="House Gadgets">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="card-title">House Gadgets</h5>
+            <a href="HouseGadget.html" class="btn btn-primary mt-auto">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="card category-card h-100">
+          <img src="image/furniture.jpg" class="img-fluid card-img-top card-img-fixed-height" alt="Furniture">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="card-title">Furniture</h5>
+            <a href="furniture.html" class="btn btn-primary mt-auto">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="about" class="py-5">
+    <div class="container">
+      <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+          <h2>About Home & Living</h2>
+          <p class="lead">We handpick products to make your home efficient, beautiful, and comfortable.</p>
+          <p>Our mission is to deliver great design and usefulness at fair prices. We focus on sustainability, strong
+            vendor relationships and fast, reliable delivery.</p>
+          <p><strong>Open hours:</strong> Mon–Sat, 9am–6pm</p>
+          <a href="contact.html" class="btn btn-outline-primary">Contact Us</a>
+        </div>
+        <div class="col-md-6">
+          <img src="image/homeNliving.png" alt="Cozy home interior" class="img-fluid rounded shadow-sm"
+            onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;800&quot; height=&quot;500&quot;><rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;%23e9ecef&quot;/><text x=&quot;50%&quot; y=&quot;50%&quot; dominant-baseline=&quot;middle&quot; text-anchor=&quot;middle&quot; font-family=&quot;Segoe UI, Arial&quot; font-size=&quot;20&quot; fill=&quot;%236c757d&quot;>Image not found</text></svg>';"
+            loading="lazy" />
+
+        </div>
+      </div>
+
+      <h4 class="mb-3">Meet the Team</h4>
+      <div class="row g-3">
+        <!-- team card 1 -->
+        <div class="col-sm-6 col-md-4">
+          <div class="card h-100">
+            <!-- optional image: uncomment & replace path if you have a photo -->
+            <!-- <img src="assets/team1.jpg" class="card-img-top" alt="Taylor Ling"> -->
+            <div class="card-body">
+              <h5 class="card-title mb-0">Taylor Ling</h5>
+              <small class="text-muted">Founder & Product</small>
+              <p class="card-text mt-2 mb-0">Designs the product lineup and vendor partnerships.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- team card 2 -->
+        <div class="col-sm-6 col-md-4">
+          <div class="card h-100">
+            <!-- <img src="assets/team2.jpg" class="card-img-top" alt="Edmund Chua"> -->
+            <div class="card-body">
+              <h5 class="card-title mb-0">Edmund Chua</h5>
+              <small class="text-muted">Operations</small>
+              <p class="card-text mt-2 mb-0">Handles logistics and customer support.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- team card 3 -->
+        <div class="col-sm-6 col-md-4">
+          <div class="card h-100">
+            <!-- <img src="assets/team3.jpg" class="card-img-top" alt="Reyes Lim"> -->
+            <div class="card-body">
+              <h5 class="card-title mb-0">Reyes Lim</h5>
+              <small class="text-muted">Marketing</small>
+              <p class="card-text mt-2 mb-0">Runs campaigns and social media.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Home & Living. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+    const allProducts = [
+      // Kitchenware products
+      {
+        id: 1,
+        title: "Casserole (40cm)",
+        price: 65.99,
+        image: "image/casserole.jpg",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 2,
+        title: "Dry Pan (26cm)",
+        price: 50.99,
+        image: "image/dry pan.jpg",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 3,
+        title: "Double Pan (24cm)",
+        price: 79.99,
+        image: "image/double pan.jpg",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 4,
+        title: "Sauce Pan (22cm)",
+        price: 49.99,
+        image: "image/sauce pan.jpg",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 5,
+        title: "Soup Pot",
+        price: 79.99,
+        image: "image/soup pot.jpg",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 6,
+        title: "Toaster",
+        price: 329.99,
+        image: "image/toaster.jpg",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 7,
+        title: "Electric Kettle (1.7L)",
+        price: 54.99,
+        image: "image/electric kettle.jpg",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 8,
+        title: "Stock Pot (35cm)",
+        price: 79.99,
+        image: "/image/stock pot.png",
+        subcategory: "cookware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 9,
+        title: "Kitchen Scissor",
+        price: 29.99,
+        image: "/image/kitchen_scissors.png",
+        subcategory: "utensils",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 10,
+        title: "Chopsticks",
+        price: 29.99,
+        image: "/image/chopsticks.webp",
+        subcategory: "utensils",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 11,
+        title: "Knifes and Scissor",
+        price: 29.99,
+        image: "/image/knifes_Scissor.webp",
+        subcategory: "utensils",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 12,
+        title: "Gas Stove",
+        price: 69.99,
+        image: "/image/Gas_stove.jpg",
+        subcategory: "appliances",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 13,
+        title: "Built-in-oven",
+        price: 369.99,
+        image: "/image/built-in-oven.jpg",
+        subcategory: "appliances",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 14,
+        title: "Microwave",
+        price: 99.99,
+        image: "/image/microwave.jpg",
+        subcategory: "appliances",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 16,
+        title: "Deep Fryers",
+        price: 299.99,
+        image: "/image/fryers.jpg",
+        subcategory: "appliances",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 17,
+        title: "Rice Cooker",
+        price: 89.99,
+        image: "/image/riceCooker.jpg",
+        subcategory: "appliances",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 18,
+        title: "Dinnerware (bowls, plates, wineglass)",
+        price: 79.99,
+        image: "/image/dinnerware.jpeg",
+        subcategory: "tableware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 19,
+        title: "Wooden Serving Platter",
+        price: 19.99,
+        image: "/image/platter.jpg",
+        subcategory: "tableware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 20,
+        title: "Tureen",
+        price: 59.99,
+        image: "/image/tureen.jpg",
+        subcategory: "tableware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+      {
+        id: 21,
+        title: "Serving Spoon",
+        price: 9.99,
+        image: "/image/serving_spoon.jpg",
+        subcategory: "tableware",
+        category: "Kitchenware",
+        page: "kitchenware.html"
+      },
+
+      // Furniture products
+      {
+        id: 22,
+        title: "Modern Sofa",
+        price: 1000.00,
+        category: "Furniture",
+        subcategory: "seating",
+        page: "furniture.html",
+        image: "image/sofa.png"
+      },
+      {
+        id: 23,
+        title: "Queen Bed",
+        price: 1200.00,
+        category: "Furniture",
+        subcategory: "bedroom",
+        page: "furniture.html",
+        image: "image/bed.png"
+      },
+      {
+        id: 24,
+        title: "Dining Table",
+        price: 420.00,
+        category: "Furniture",
+        subcategory: "dining",
+        page: "furniture.html",
+        image: "image/dining.png"
+      },
+      {
+        id: 25,
+        title: "Wooden Wardrobe",
+        price: 600.00,
+        category: "Furniture",
+        subcategory: "storage",
+        page: "furniture.html",
+        image: "image/wardrobe.png"
+      },
+      {
+        id: 26,
+        title: "Bookshelf",
+        price: 500.00,
+        category: "Furniture",
+        subcategory: "storage",
+        page: "furniture.html",
+        image: "image/bookshelf.png"
+      },
+      {
+        id: 27,
+        title: "Coffee Table",
+        price: 300.00,
+        category: "Furniture",
+        subcategory: "tables",
+        page: "furniture.html",
+        image: "image/coffee.png"
+      },
+
+      // House Gadgets products
+      {
+        id: 28,
+        title: "Smart Lamp",
+        price: 79.90,
+        category: "House Gadgets",
+        subcategory: "lighting",
+        page: "HouseGadget.html",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcXOisw_okCQdkxqTcj8lwZhoRkpBB66LgJQ&s"
+      },
+      {
+        id: 29,
+        title: "Robot Vacuum",
+        price: 499.00,
+        category: "House Gadgets",
+        subcategory: "cleaning",
+        page: "HouseGadget.html",
+        image: "https://hnsgsfp.imgix.net/9/images/detailed/44/Samsung_POWERbot_Essential_with_2-in-1_Robot_Vacuum_(Main).jpg?fit=fill&bg=0FFF&w=1536&h=900&auto=format,compress"
+      },
+      {
+        id: 30,
+        title: "Air Purifier",
+        price: 299.00,
+        category: "House Gadgets",
+        subcategory: "air care",
+        page: "HouseGadget.html",
+        image: "https://images.philips.com/is/image/philipsconsumer/vrs_5058815a6efdee1b2596d283f548c32a8097fe9c?wid=700&hei=700&$pnglarge$"
+      },
+
+      {
+        id: 31,
+        title: "Smart Plug",
+        price: 39.90,
+        category: "House Gadgets",
+        subcategory: "smart home",
+        page: "HouseGadget.html",
+        image: "https://www.lightinglegends.com/cdn/shop/files/5.jpg?v=1706702441"
+      }
+    ];
+
+    const searchInput = document.getElementById('globalSearch');
+    const searchResults = document.getElementById('searchResults');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const searchStats = document.getElementById('searchStats');
+
+    let searchTimeout;
+
+    searchInput.addEventListener('input', function () {
+      const query = this.value.trim();
+
+      clearTimeout(searchTimeout);
+
+      if (query.length < 2) {
+        searchResults.classList.remove('show');
+        return;
+      }
+
+      searchTimeout = setTimeout(() => {
+        performSearch(query);
+      }, 300);
+    });
+
+    function performSearch(query) {
+      const results = allProducts.filter(product =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase()) ||
+        product.subcategory.toLowerCase().includes(query.toLowerCase())
+      );
+
+      displayResults(results, query);
+    }
+
+    function displayResults(results, query) {
+      if (results.length === 0) {
+        // ... (no change here)
+      } else {
+        searchStats.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} found for "${query}"`;
+        resultsContainer.innerHTML = results.map(product => `
+      <div class="search-result-item">
+        <img src="${product.image}" alt="${product.title}" class="result-image">
+        <div class="result-info">
+          <div class="result-title">${product.title}</div>
+          <div class="result-category">${product.category}</div>
+          <div class="result-price">RM${product.price.toFixed(2)}</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
+      </div>
+    `).join('');
+      }
+      searchResults.classList.add('show');
+    }
+
+    function goToProduct(page, productName) {
+      // You can modify this to pass the product name as a URL parameter
+      // so the target page can highlight or scroll to the specific product
+      window.location.href = `${page}?search=${encodeURIComponent(productName)}`;
+    }
+
+    function readCart() {
+      try { return JSON.parse(localStorage.getItem('cart')) || []; }
+      catch { return []; }
+    }
+    function writeCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    function updateCartCount() {
+      const count = readCart().reduce((sum, item) => sum + item.quantity, 0);
+      const cartCountElement = document.getElementById('cartCount');
+      if (cartCountElement) {
+        cartCountElement.textContent = count;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+
+    function addToCart(product) {
+      const cart = readCart();
+      const existingItemIndex = cart.findIndex(item => item.id === product.id);
+
+      if (existingItemIndex > -1) {
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // Make sure the object you save to the cart has 'title' and 'image' properties
+        cart.push({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          quantity: 1
+        });
+      }
+
+      writeCart(cart);
+      updateCartCount();
+
+      alert(`${product.title} has been added to your cart!`);
+    }
+
+    // Hide search results when clicking outside
+    document.addEventListener('click', function (event) {
+      if (!event.target.closest('.search-container')) {
+        searchResults.classList.remove('show');
+      }
+    });
+    // Cookie greeting
+    if (!document.cookie.includes("visited=true")) {
+      alert("Welcome to Home & Living!");
+      document.cookie = "visited=true; max-age=86400"; // 1 day
+    }
+
+    // Session storage visit count
+    if (sessionStorage.getItem("visitCount")) {
+      let count = parseInt(sessionStorage.getItem("visitCount")) + 1;
+      sessionStorage.setItem("visitCount", count);
+    } else {
+      sessionStorage.setItem("visitCount", 1);
+    }
+
+    // Local storage for last visited category
+    function visitCategory(category) {
+      localStorage.setItem("lastCategory", category);
+    }
+  </script>
+
+</body>
+
+</html>

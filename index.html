@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up with OTP</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("image/background.jpg") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .signup-container {
+      background: white;
+      padding: 25px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="submit"],
+    button {
+      background: #007BFF;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    input[type="submit"]:hover,
+    button:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body class="background">
+  <div class="signup-container">
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+      <input type="text" id="name" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="email" id="email" placeholder="Email" required>
+
+      <button type="button" onclick="sendOTP()">Send OTP</button>
+      <input type="text" id="otp" placeholder="Enter OTP" required>
+      <button type="button" onclick="verifyOTP()">Verify OTP</button>
+
+      <input type="submit" value="Create Account">
+      <a href="login.html">Already have an account?</a>
+    </form>
+  </div>
+
+  <script>
+    let generatedOTP = null;
+    let otpVerified = false;
+
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function sendOTP() {
+      const email = document.getElementById("email").value.trim();
+      if (!isValidEmail(email)) {
+        alert("Please enter a valid email address (example@domain.com).");
+        return;
+      }
+      generatedOTP = Math.floor(1000 + Math.random() * 9000);
+      alert("Demo: OTP has been sent to " + email + ".\nYour OTP is: " + generatedOTP);
+    }
+
+    function verifyOTP() {
+      const entered = document.getElementById("otp").value;
+      if (entered == generatedOTP) {
+        alert("OTP verified successfully!");
+        otpVerified = true;
+        return true;
+      } else {
+        alert("Invalid OTP. Try again.");
+        return false;
+      }
+    }
+
+    document.getElementById("signupForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const username = document.getElementById("name").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      if (!isValidEmail(email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      if (!otpVerified) {
+        alert("Please verify OTP before creating an account!");
+        return;
+      }
+
+      // Store locally (demo only)
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
+      localStorage.setItem("email", email);
+
+      alert("Account created successfully!");
+      window.location.href = "login.html"; // redirect to login page after signup
+    });
+  </script>
+</body>
+
+</html>
